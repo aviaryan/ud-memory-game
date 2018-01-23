@@ -3,6 +3,8 @@
  */
 
 const cardList = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb"];
+let started = false;
+let openCards = [];
 
 
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -32,11 +34,49 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
+function getClassFromCard(card){
+    return card[0].firstChild.className;
+}
 
+// check open cards when count = 2
+function checkOpenCards(){
+    if (getClassFromCard(openCards[0]) === getClassFromCard(openCards[1])){
+        console.log("matched");
+        openCards.forEach(function(card){
+            card.toggleClass("open show match");
+        });
+    } else {
+        console.log("not matched");
+        openCards.forEach(function(card){
+            card.toggleClass("open show");
+        });
+    }
+    openCards = [];
+}
+
+// event handler for when the card is clicked
+function cardClick(event){
+    if (!started) {
+        started = true;
+        // TODO: timer
+    }
+    // cards can be flipped
+    if (openCards.length < 2){
+        $(this).toggleClass("open show");
+        openCards.push($(this));
+    }
+    // check if cards match
+    if (openCards.length === 2){
+        checkOpenCards();
+    }
+}
+
+// create individual card element
 function createCard(cardClass){
     $("ul.deck").append(`<li class="card"><i class="fa ${cardClass}"></i></li>`);
 }
 
+// populate cards in DOM
 function populateCards(){
     // const cl1 = shuffle(cardList);
     shuffle(cardList).forEach(createCard);
@@ -47,4 +87,5 @@ function populateCards(){
 // start the game
 $(document).ready(function (){
     populateCards();
+    $(".card").click(cardClick);
 });
