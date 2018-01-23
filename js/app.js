@@ -94,8 +94,9 @@ function createCard(cardClass){
 
 // populate cards in DOM
 function populateCards(){
-    shuffle(cardList).forEach(createCard);
-    shuffle(cardList).forEach(createCard);
+    shuffle(Array.prototype.push.apply(cardList, cardList)).forEach(createCard);
+    // shuffle(cardList).forEach(createCard);
+    // shuffle(cardList).forEach(createCard);
 }
 
 // reset game
@@ -126,8 +127,6 @@ function endGame(){
         callback: function(value){
             if (value){
                 resetGame();
-            } else {
-                // do nothing
             }
         }
     });
