@@ -4,11 +4,10 @@ Classic Memory Game
 
 ### How to play
 
-Open http://aviaryan.in/ud-memory-game/
-
-Click on tiles till you get two tiles of the same pair. 
-When two same type of tiles are opened, this is called as "matching".
-Your goal is to match all tiles in as less moves as possible.
+* Open http://aviaryan.in/ud-memory-game/. This is the game.
+* Clicking on tiles will turn them over so that you can see what lies on them. 
+* Your goal is to match two tiles of the same type at a time.
+* Then try to match all pairs in as minimum moves as possible.
 
 ### Screenshots
 

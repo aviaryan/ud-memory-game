@@ -165,6 +165,7 @@ $(document).ready(function(){
 });
 
 // load animateCss
+// taken from https://github.com/daneden/animate.css/#usage
 $.fn.extend({
     animateCss: function (animationName, callback) {
         var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
