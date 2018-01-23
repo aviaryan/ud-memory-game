@@ -5,6 +5,8 @@
 const cardList = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb"];
 let started = false;
 let openCards = [];
+let moves = 0;
+let timeCount = 0;
 
 
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -54,12 +56,29 @@ function checkOpenCards(){
     openCards = [];
 }
 
+function startTimer(){
+    setTimeout(function(){
+        timeCount += 1;
+        $("#timer").html(timeCount);
+        setTimeout(startTimer, 500);
+    }, 500);
+}
+
+// increment move count
+function incrementMove(){
+    moves += 1;
+    $("#moves").html(moves);
+}
+
 // event handler for when the card is clicked
 function cardClick(event){
     if (!started) {
         started = true;
+        timeCount = 0;
+        setTimeout(startTimer, 500);
         // TODO: timer
     }
+    incrementMove();
     // cards can be flipped
     if (openCards.length < 2){
         $(this).toggleClass("open show");
@@ -78,9 +97,7 @@ function createCard(cardClass){
 
 // populate cards in DOM
 function populateCards(){
-    // const cl1 = shuffle(cardList);
     shuffle(cardList).forEach(createCard);
-    // const cl2 = shuffle(cardList);
     shuffle(cardList).forEach(createCard);
 }
 
