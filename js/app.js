@@ -13,7 +13,6 @@ let timerPtr;
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     let currentIndex = array.length, temporaryValue, randomIndex;
-
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
@@ -21,7 +20,6 @@ function shuffle(array) {
         array[currentIndex] = array[randomIndex];
         array[randomIndex] = temporaryValue;
     }
-
     return array;
 }
 
@@ -72,6 +70,9 @@ function startTimer(){
 function incrementMove(){
     moves += 1;
     $("#moves").html(moves);
+    if (moves === 14 || moves === 22){
+        reduceStar();
+    }
 }
 
 // event handler for when the card is clicked
@@ -106,6 +107,7 @@ function populateCards(){
 
 function resetGame(){
     $("ul.deck").html("");
+    $(".stars").html("");
     moves = -1;
     incrementMove();
     started = false;
@@ -117,8 +119,19 @@ function resetGame(){
     initGame();
 }
 
+function initStars(){
+    for (let i=0; i<3; i++){
+        $(".stars").append(`<li><i class="fa fa-star"></i></li>`);
+    }
+}
+
+function reduceStar(){
+    $($(".fa-star")[0]).toggleClass("fa-star fa-star-o");
+}
+
 function initGame(){
     populateCards();
+    initStars();
     $(".card").click(cardClick);
 }
 
