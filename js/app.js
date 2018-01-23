@@ -7,6 +7,7 @@ let started = false;
 let openCards = [];
 let moves = 0;
 let timeCount = 0;
+let timerPtr;
 
 
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -57,11 +58,9 @@ function checkOpenCards(){
 }
 
 function startTimer(){
-    setTimeout(function(){
-        timeCount += 1;
-        $("#timer").html(timeCount);
-        setTimeout(startTimer, 500);
-    }, 500);
+    timeCount += 1;
+    $("#timer").html(timeCount);
+    timerPtr = setTimeout(startTimer, 1000);
 }
 
 // increment move count
@@ -75,7 +74,7 @@ function cardClick(event){
     if (!started) {
         started = true;
         timeCount = 0;
-        setTimeout(startTimer, 500);
+        timerPtr = setTimeout(startTimer, 1000);
         // TODO: timer
     }
     incrementMove();
@@ -101,8 +100,26 @@ function populateCards(){
     shuffle(cardList).forEach(createCard);
 }
 
-// start the game
-$(document).ready(function (){
+function resetGame(){
+    $("ul.deck").html("");
+    moves = -1;
+    incrementMove();
+    started = false;
+    openCards = [];
+    timeCount = 0;
+    clearTimeout(timerPtr);
+    $("#timer").html(0);
+    // re-setup game
+    initGame();
+}
+
+function initGame(){
     populateCards();
     $(".card").click(cardClick);
+}
+
+// start the game
+$(document).ready(function(){
+    initGame();
+    $("#restart").click(resetGame);
 });

@@ -107,7 +107,7 @@ h1 {
     float: right;
 }
 
-.score-panel .restart {
+.score-panel #restart {
     margin-left: 10px;
     cursor: pointer;
 }
