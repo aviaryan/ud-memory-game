@@ -101,8 +101,6 @@ function createCard(cardClass){
 // populate cards in DOM
 function populateCards(){
     shuffle(cardList.concat(cardList)).forEach(createCard);
-    // shuffle(cardList).forEach(createCard);
-    // shuffle(cardList).forEach(createCard);
 }
 
 // reset game
@@ -125,7 +123,6 @@ function resetGame(){
 function endGame(){
     // stop timer
     clearTimeout(timerPtr);
-    console.log("game finished");
     // show prompt
     let stars = $(".fa-star").length;
     vex.dialog.confirm({
@@ -147,7 +144,8 @@ function initStars(){
 
 // reduce star rating
 function reduceStar(){
-    $($(".fa-star")[0]).toggleClass("fa-star fa-star-o");
+    let stars = $(".fa-star");
+    $(stars[stars.length-1]).toggleClass("fa-star fa-star-o");
 }
 
 // init game
