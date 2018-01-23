@@ -7,6 +7,7 @@ let started = false;
 let openCards = [];
 let moves = 0;
 let timeCount = 0;
+let solvedCount = 0;
 let timerPtr;
 
 
@@ -23,18 +24,7 @@ function shuffle(array) {
     return array;
 }
 
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
-
+// get class value from card DOM
 function getClassFromCard(card){
     return card[0].firstChild.className;
 }
@@ -42,14 +32,13 @@ function getClassFromCard(card){
 // check open cards when count = 2
 function checkOpenCards(){
     if (getClassFromCard(openCards[0]) === getClassFromCard(openCards[1])){
-        console.log("matched");
+        solvedCount++;
         openCards.forEach(function(card){
             card.animateCss('tada', function(){
                 card.toggleClass("open show match");
             });
         });
     } else {
-        console.log("not matched");
         openCards.forEach(function(card){
             card.animateCss('shake', function(){
                 card.toggleClass("open show");
@@ -58,8 +47,12 @@ function checkOpenCards(){
     }
     openCards = [];
     incrementMove();
+    if (solvedCount === 8){
+        endGame();
+    }
 }
 
+// starts the timer
 function startTimer(){
     timeCount += 1;
     $("#timer").html(timeCount);
@@ -105,6 +98,7 @@ function populateCards(){
     shuffle(cardList).forEach(createCard);
 }
 
+// reset game
 function resetGame(){
     $("ul.deck").html("");
     $(".stars").html("");
@@ -113,32 +107,56 @@ function resetGame(){
     started = false;
     openCards = [];
     timeCount = 0;
+    solvedCount = 0;
     clearTimeout(timerPtr);
     $("#timer").html(0);
     // re-setup game
     initGame();
 }
 
+// runs when game has been won
+function endGame(){
+    // stop timer
+    clearTimeout(timerPtr);
+    console.log("game finished");
+    // show prompt
+    let stars = $(".fa-star").length;
+    vex.dialog.confirm({
+        message: `Congrats! You just won the game in ${timeCount} seconds with ${stars}/3 star rating. Do you want to play again?`,
+        callback: function(value){
+            if (value){
+                resetGame();
+            } else {
+                // do nothing
+            }
+        }
+    });
+}
+
+// initialize stars display
 function initStars(){
     for (let i=0; i<3; i++){
         $(".stars").append(`<li><i class="fa fa-star"></i></li>`);
     }
 }
 
+// reduce star rating
 function reduceStar(){
     $($(".fa-star")[0]).toggleClass("fa-star fa-star-o");
 }
 
+// init game
 function initGame(){
     populateCards();
     initStars();
     $(".card").click(cardClick);
 }
 
-// start the game
+// things done after DOM is loaded for the first time
 $(document).ready(function(){
     initGame();
     $("#restart").click(resetGame);
+    vex.defaultOptions.className = 'vex-theme-os';
 });
 
 // load animateCss

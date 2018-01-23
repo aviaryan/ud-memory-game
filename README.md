@@ -7,3 +7,4 @@ Classic Memory Game.
 
 * jQuery
 * [animate.css](https://github.com/daneden/animate.css)
+* [vex](http://github.hubspot.com/vex/)
