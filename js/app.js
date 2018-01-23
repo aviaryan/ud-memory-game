@@ -59,6 +59,7 @@ function checkOpenCards(){
         });
     }
     openCards = [];
+    incrementMove();
 }
 
 function startTimer(){
@@ -81,7 +82,6 @@ function cardClick(event){
         timerPtr = setTimeout(startTimer, 1000);
         // TODO: timer
     }
-    incrementMove();
     // cards can be flipped
     if (openCards.length < 2){
         $(this).toggleClass("open show");
