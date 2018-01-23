@@ -162,6 +162,8 @@ $(document).ready(function(){
     initGame();
     $("#restart").click(resetGame);
     vex.defaultOptions.className = 'vex-theme-os';
+    vex.dialog.buttons.YES.text = 'Yes!';
+    vex.dialog.buttons.NO.text = 'No';
 });
 
 // load animateCss
