@@ -46,12 +46,16 @@ function checkOpenCards(){
     if (getClassFromCard(openCards[0]) === getClassFromCard(openCards[1])){
         console.log("matched");
         openCards.forEach(function(card){
-            card.toggleClass("open show match");
+            card.animateCss('tada', function(){
+                card.toggleClass("open show match");
+            });
         });
     } else {
         console.log("not matched");
         openCards.forEach(function(card){
-            card.toggleClass("open show");
+            card.animateCss('shake', function(){
+                card.toggleClass("open show");
+            });
         });
     }
     openCards = [];
@@ -122,4 +126,18 @@ function initGame(){
 $(document).ready(function(){
     initGame();
     $("#restart").click(resetGame);
+});
+
+// load animateCss
+$.fn.extend({
+    animateCss: function (animationName, callback) {
+        var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
+        this.addClass('animated ' + animationName).one(animationEnd, function () {
+            $(this).removeClass('animated ' + animationName);
+            if (callback) {
+                callback();
+            }
+        });
+        return this;
+    }
 });
