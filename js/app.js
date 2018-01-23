@@ -63,7 +63,7 @@ function startTimer(){
 function incrementMove(){
     moves += 1;
     $("#moves").html(moves);
-    if (moves === 14 || moves === 22){
+    if (moves === 14 || moves === 20){
         reduceStar();
     }
 }
