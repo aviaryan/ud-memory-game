@@ -70,11 +70,17 @@ function incrementMove(){
 
 // event handler for when the card is clicked
 function cardClick(event){
+    // check opened or matched card
+    let classes = $(this).attr("class");
+    if (classes.search('open') * classes.search('match') !== 1){
+        // both should be -1
+        return;
+    }
+    // start game if needed
     if (!started) {
         started = true;
         timeCount = 0;
         timerPtr = setTimeout(startTimer, 1000);
-        // TODO: timer
     }
     // cards can be flipped
     if (openCards.length < 2){
